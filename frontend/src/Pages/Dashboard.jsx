@@ -32,7 +32,7 @@ const Dashboard = () => {
     } catch (error) {
       toast.error(error.message);
     } finally {
-      setLoading(false); // always at the end
+      setLoading(false); 
     }
   };
 

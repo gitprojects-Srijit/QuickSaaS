@@ -130,7 +130,12 @@ export const generateImage = async (req, res) => {
 
     // Convert to base64 and upload to Cloudinary
     const base64Image = `data:image/png;base64,${Buffer.from(data, "binary").toString("base64")}`;
-    const { secure_url } = await cloudinary.uploader.upload(base64Image);
+    const { secure_url } = await cloudinary.uploader.upload(base64Image, {
+      folder: "ai-creations",
+    });
+
+    // ✅ create download link (Cloudinary forces download with fl_attachment)
+    const download_url = secure_url.replace("/upload/", "/upload/fl_attachment/");
 
     // Save to database
     await sql`
@@ -138,7 +143,7 @@ export const generateImage = async (req, res) => {
       VALUES (${userId}, ${prompt}, ${secure_url}, 'image', ${publish ?? false})
     `;
 
-    res.json({ success: true, content: secure_url });
+    res.json({ success: true, content: secure_url, download: download_url});
   } catch (error) {
     console.error("GenerateImage Error:", error.message);
     res.json({ success: false, message: error.message });
@@ -165,10 +170,13 @@ export const removeBackgroundImage = async (req, res)=>{
             ]
         })
 
+        // create download link using Cloudinary fl_attachment
+        const download_url = secure_url.replace("/upload/", "/upload/fl_attachment/");
+
         await sql` INSERT INTO creations (user_id, prompt, content, type) 
         VALUES (${userId}, 'Remove background from image', ${secure_url}, 'image')`;
 
-        res.json({success: true, content: secure_url})
+        res.json({success: true, content: secure_url, download: download_url})
 
     } catch (error) {
         console.log(error.message)
@@ -197,10 +205,13 @@ export const removeImageObject = async (req, res)=>{
             resource_type: 'image'
         })
 
+        // ✅ create download link
+        const download_url = imageurl.replace("/upload/", "/upload/fl_attachment/");
+
         await sql` INSERT INTO creations (user_id, prompt, content, type) 
         VALUES (${userId}, ${`Removed ${object} from image`}, ${imageurl}, 'image')`;
 
-        res.json({success: true, content: imageurl})
+        res.json({success: true, content: imageurl, download: download_url})
 
     } catch (error) {
         console.log(error.message)

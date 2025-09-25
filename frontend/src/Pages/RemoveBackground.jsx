@@ -4,6 +4,7 @@ import axios from 'axios'
 import { useAuth } from '@clerk/clerk-react';
 import toast from 'react-hot-toast';
 import FormData from "form-data";
+import { FaDownload } from 'react-icons/fa';
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -27,7 +28,7 @@ const RemoveBackground = () => {
         })
 
         if(data.success){
-          setContent(data.content)
+          setContent({ content: data.content, download: data.download })
         }else{
           toast.error(data.message)
         }        
@@ -75,7 +76,25 @@ const RemoveBackground = () => {
             </div>
           </div>
         ) : (
-          <img src={content} alt="image" className='mt-3 h-full w-full'/>
+          // <img src={content} alt="image" className='mt-3 h-full w-full'/>
+
+          <div className='mt-3 h-full relative group rounded overflow-hidden'>
+            {/* processed image */}
+            <img 
+              src={content.content} 
+              alt="processed" 
+              className='w-full h-full object-cover rounded'
+            />
+
+            {/* download button, visible on hover */}
+            <a
+              href={content.download ? content.download : content.content}
+              download="bg-removed.png"
+              className='absolute top-2 right-2 text-black p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white'
+            >
+              <FaDownload />
+            </a>
+          </div>
         )}
         
       </div>

@@ -3,6 +3,7 @@ import { useState } from 'react'
 import axios from 'axios'
 import { useAuth } from '@clerk/clerk-react';
 import toast from 'react-hot-toast';
+import { FaDownload } from "react-icons/fa";
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -30,7 +31,7 @@ const GenerateImages = () => {
         })
 
         if(data.success){
-          setContent(data.content)
+          setContent({ content: data.content, download: data.download })
         }else{
           toast.error(data.message)
         }
@@ -95,11 +96,33 @@ const GenerateImages = () => {
             </div>
           </div>
         ) : (
-          <div className='mt-3 h-full'>
-            <img src={content} alt="image" className='w-full h-full'/>
+          // <div className='mt-3 h-full'>
+          //   <img src={content} alt="image" className='w-full h-full'/>
+          // </div>
+
+          <div className='mt-3 h-full flex flex-col gap-2 relative group'>
+            {/* Image container */}
+            <div className='relative w-full h-full rounded overflow-hidden'>
+              
+              {/* Generated image */}
+              <img 
+                src={content.content} 
+                alt="image" 
+                className='w-full h-full object-cover rounded'
+              />
+
+              {/* Download icon, visible only on hover */}
+              <a
+                href={content.download ? content.download : content.content}
+                download="ai-image.png"
+                className='absolute top-2 right-2 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black'
+              >
+                <FaDownload />
+              </a>
+            </div>
           </div>
         )}
-        
+
       </div>
     </div>
   )
