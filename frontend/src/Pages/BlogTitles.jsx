@@ -73,7 +73,7 @@ const BlogTitles = () => {
       <div className='w-full max-w-lg p-4 bg-white rounded-lg flex flex-col border border-gray-200 min-h-97.5'>
         <div className='flex items-center gap-3'>
           <Hash className='w-5 h-5 text-[#8E37EB]'/>
-          <h1 className='text-xl font-semibold'>Generate Titles</h1>
+          <h1 className='text-xl font-semibold'>Generated Titles</h1>
         </div>
         
         {!content ? (

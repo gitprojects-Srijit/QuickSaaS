@@ -85,7 +85,7 @@ const GenerateImages = () => {
       <div className='w-full max-w-lg p-4 bg-white rounded-lg flex flex-col border border-gray-200 min-h-123'>
         <div className='flex items-center gap-3'>
           <Image className='w-5 h-5 text-[#00AD25]'/>
-          <h1 className='text-xl font-semibold'>Generate Images</h1>
+          <h1 className='text-xl font-semibold'>Generated Image</h1>
         </div>
 
         {!content ? (
