@@ -6,7 +6,7 @@ const HeadBody = () => {
 
     const navigate = useNavigate()
   return (
-    <div className='px-4 sm:px-20 xl:px-32 relative inline-flex flex-col w-full justify-center bg-[url(/bg1.jpg)] bg-cover bg-no-repeat min-h-screen pt-30'>
+    <div className='px-4 sm:px-20 xl:px-32 relative inline-flex flex-col w-full justify-center bg-[url(/gradientBackground.png)] bg-cover bg-no-repeat min-h-screen pt-30'>
       
       <div className='text-center mb-6'>
         <h1 className='text-3xl sm:text-5xl md:text-6xl 2xl:text-7xl font-semibold mx-auto leading-[1.2]'>Create Amazing Content <br /> With <span className='text-primary'>AI Tools</span></h1>
